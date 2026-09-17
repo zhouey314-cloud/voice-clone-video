@@ -1,0 +1,20 @@
+# Local credentials and private authorization material
+config.local.env
+voice_consent.json
+*.key
+*.pem
+
+# Generated run outputs and local media
+runs/
+*.mp3
+*.m4a
+*.wav
+*.mp4
+*.mov
+
+# Python cache and local tooling state
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/
+venv/

@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "consent_status": "WAITING_CONFIRMATION",
+  "voice_owner": "",
+  "authorized_by": "",
+  "authorized_at": "YYYY-MM-DD",
+  "allowed_use": [
+    "AI synthetic narration for video"
+  ],
+  "platforms": [],
+  "expiry": "YYYY-MM-DD",
+  "source": {
+    "recording_provided_by": "",
+    "relationship_or_rights_basis": "",
+    "reference_audio_filename": ""
+  },
+  "disclosure_required": true,
+  "notes": "Change consent_status to APPROVED only after the voice owner or authorized representative confirms this exact use."
+}
