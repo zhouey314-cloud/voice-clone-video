@@ -1,5 +1,11 @@
 # Voice Clone Video
 
+![Consent-gated workflow](docs/images/architecture.svg)
+
+The [synthetic subtitle sample](examples/synthetic-subtitles.srt) contains no
+real speaker or customer material. It can be used to inspect cue parsing and
+timeline behavior without calling a voice provider.
+
 > A lightweight, auditable voice-cloning and subtitle-dubbing workflow for WorkBuddy/Codex.
 
 把一段经过明确授权的参考录音，变成可复用的 MiniMax `voice_id`，再逐条朗读
