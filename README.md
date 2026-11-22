@@ -1,16 +1,25 @@
 # Voice Clone Video
 
+A Python + FFmpeg CLI that turns subtitle cues into a **reviewable dubbing timeline**. The public demo uses silence and synthetic fixtures: it proves the cue-to-output mechanics, not a voice clone.
+
+[Run the offline test](#offline-proof-no-api-key) · [Read the synthetic SRT](examples/synthetic-subtitles.srt) · [Inspect the E2E test](tests/test_mock_e2e.py) · [See the Skill entry point](SKILL.md)
+
+| Path | Data and result |
+| --- | --- |
+| Offline `--mock` | No provider request or API key. Synthetic audio, two timed cues and MP4 assembly; the result is labelled `DEMO_ONLY`. |
+| Real provider path | Requires documented permission for the particular voice, use and vendor. MiniMax receives reference audio during cloning and cue text during dubbing. The output is for human review, never automatic publishing. |
+
+## Offline proof: no API key
+
+Install Python 3.10+, FFmpeg and FFprobe, then run from the repository root:
+
+```bash
+python3 -m unittest discover -s tests -p 'test_mock_e2e.py' -v
+```
+
+The test generates its own black-frame video, silent reference and fictional consent fixture in a temporary directory. It asserts a generated MP4 and narration track, two timeline segments, `MOCK` provider status and a `DEMO_ONLY` report. The fixture is not evidence of real consent, speech quality or a production MiniMax run.
+
 ![Consent-gated workflow](docs/images/architecture.svg)
-
-The [synthetic subtitle sample](examples/synthetic-subtitles.srt) contains no
-real speaker or customer material. It can be used to inspect cue parsing and
-timeline behavior without calling a voice provider.
-
-> A lightweight, auditable voice-cloning and subtitle-dubbing workflow for WorkBuddy/Codex.
-
-把一段经过明确授权的参考录音，变成可复用的 MiniMax `voice_id`，再逐条朗读
-SRT/VTT 字幕，合成带新旁白的 MP4。它的定位不是一个笨重的桌面编辑器，而是一个
-依赖面小、流程透明、方便接入个人工作流的语音视频工具。
 
 ## 中文说明
 
@@ -61,7 +70,7 @@ cp references/voice_consent_template.json /absolute/path/voice_consent.json
 ```
 
 只有当声音所有者或其授权代表确认了这次具体用途后，才把
-`consent_status` 改为 `APPROVED`。程序会拒绝缺少授权、过期或用途不匹配的文件。
+`consent_status` 改为 `APPROVED`。新建音色时，程序会拒绝缺少授权、过期或用途不匹配的文件。复用已有音色时，也要人工确认许可仍未过期且覆盖本次用途；不能把已保存的授权状态当作新的许可。
 
 #### 3. 配置你自己的 API Key
 
@@ -202,16 +211,14 @@ MiniMax for real voice operations, and local FFmpeg for media assembly.
 
 Core guarantees:
 
-- consent is required before any real voice upload;
+- the clone step checks the local consent record before any reference-audio upload;
 - one subtitle cue maps to one TTS request and one measured audio segment;
-- API keys and private media stay local and are ignored by Git;
+- never commit secrets, raw recordings, genuine consent evidence or generated media;
 - mock runs are labelled `DEMO_ONLY`;
 - the workflow stops at `VIDEO_READY_FOR_REVIEW` and never auto-publishes.
 
 See the Chinese quick start above for commands and output details.
 
-## License status
+## License
 
-The incoming archive did not include a license file. The repository is public, but
-no new license is asserted here. Add the license that matches your ownership and
-the upstream project's rights before accepting external contributions.
+See the existing [LICENSE](LICENSE) for repository code. It does not grant rights to anyone’s voice, private recordings, subtitles, or provider services.
